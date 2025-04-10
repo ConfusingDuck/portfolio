@@ -3,14 +3,14 @@ import { motion } from 'framer-motion';
 import ProjectCard from '../shared/ProjectCard';
 
 const codingProjects = [
-  /*{
-    title: 'E-PORTNGHIB',
-    description: 'A full-stack e-commerce platform with user authentication, product management, and payment integration.',
-    technologies: ['React', 'Node.js', 'MongoDB', 'Express'],
-    image: '/projects/ecommerce.jpg',
-    github: 'https://github.com/yourusername/ecommerce',
-    demo: 'https://ecommerce-demo.com',
-  },*/
+  {
+    title: 'Just-Wash AI',
+    description: 'A full-stack web app, to make washing hands more fun and engaging.',
+    technologies: ['Typescript', 'Next.js', 'MongoDB', 'Flask', 'OpenCV'],
+    image: '/images/justwash.png',
+    github: 'https://github.com/hiatus770/just_wash_backend',
+    demo: 'http://devpost.com/software/just-wash',
+  },
   // ADD YOUR NEW PROJECTS HERE RAYMOND!!!
 ];
 
