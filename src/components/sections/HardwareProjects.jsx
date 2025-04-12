@@ -3,14 +3,14 @@ import { motion } from 'framer-motion';
 import ProjectCard from '../shared/ProjectCard';
 
 const hardwareProjects = [
-  /*{
-    title: 'Smart Home Automation',
-    description: 'A home automation system using Raspberry Pi and various sensors to control lighting, temperature, and security.',
-    technologies: ['Raspberry Pi', 'Python', 'IoT', 'MQTT'],
-    image: '/projects/smarthome.jpg',
-    github: 'https://github.com/yourusername/smarthome',
-    demo: 'https://smarthome-demo.com',
-  },*/
+  {
+    title: 'Just-Wash AI',
+    description: 'A robotic handwashing validation system to make sure you wash your hands properly.',
+    technologies: ['Flask', 'Raspberry Pi', 'Arduino', 'Tensorflow', 'OpenCV'],
+    image: '/images/justwash hand.jpg',
+    github: 'https://github.com/hiatus770/just_wash_backend',
+    demo: 'http://devpost.com/software/just-wash',
+  },
   // ADD PROJECTS HERE RAYMOND
 ];
 
