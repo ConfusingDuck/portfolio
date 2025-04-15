@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import ProjectCard from '../shared/ProjectCard';
+import { API_BASE_URL, config } from '../../config';
 
 // Keeping the hardcoded projects as a fallback
 const fallbackProjects = [
@@ -8,11 +9,18 @@ const fallbackProjects = [
     title: 'Just-Wash AI',
     description: 'A full-stack web app, to make washing hands more fun and engaging.',
     technologies: ['Typescript', 'Next.js', 'MongoDB', 'Flask', 'OpenCV'],
-    image: '/images/justwash.png',
+    image: config.getImagePath('/images/justwash.png'),
     github: 'https://github.com/hiatus770/just_wash_backend',
     demo: 'http://devpost.com/software/just-wash',
   },
-  // ADD YOUR NEW PROJECTS HERE RAYMOND!!!
+  {
+    title: 'Portfolio Website',
+    description: 'My personal portfolio website built with React and SQL backend.',
+    technologies: ['React', 'Tailwind CSS', 'Framer Motion', 'SQL', 'Express'],
+    image: config.getImagePath('/images/portfolio.png'),
+    github: 'https://github.com/ConfusingDuck/portfolio',
+    demo: 'https://confusingduck.github.io/portfolio',
+  }
 ];
 
 const CodingProjects = () => {
@@ -24,7 +32,24 @@ const CodingProjects = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/projects');
+        // Skip API call if we're in production (GitHub Pages)
+        if (!API_BASE_URL) {
+          console.log('Using fallback projects in production environment');
+          setProjects(fallbackProjects);
+          setLoading(false);
+          return;
+        }
+
+        // Try to fetch from the backend API with a timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), config.apiTimeout);
+        
+        const response = await fetch(`${API_BASE_URL}/projects`, {
+          signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        
         if (!response.ok) {
           throw new Error('Failed to fetch projects');
         }
@@ -39,14 +64,16 @@ const CodingProjects = () => {
             : project.technologies || [],
           github: project.github_url,
           demo: project.live_url,
-          image: project.image_url
+          // Fix image path for GitHub Pages
+          image: config.getImagePath(project.image_url)
         }));
         
         setProjects(data.length > 0 ? data : fallbackProjects);
       } catch (err) {
         console.error('Error fetching projects:', err);
         setError(err.message);
-        setProjects(fallbackProjects); // Use fallback data on error
+        // Use fallback data on error
+        setProjects(fallbackProjects);
       } finally {
         setLoading(false);
       }
@@ -87,8 +114,11 @@ const CodingProjects = () => {
           
           {loading ? (
             <p className="text-center py-10">Loading projects...</p>
-          ) : error ? (
-            <p className="text-center py-10 text-red-500">Error: {error}</p>
+          ) : error && API_BASE_URL ? (
+            <div className="text-center py-10">
+              <p className="text-red-500 mb-2">Error connecting to the database. Showing fallback projects.</p>
+              <p className="text-sm text-gray-500">({error})</p>
+            </div>
           ) : (
             <>
               <div className="mb-8">

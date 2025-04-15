@@ -7,6 +7,7 @@
     "dev": "nodemon index.js",
     "seed": "node seed.js",
     "db": "node manage-db.js",
+    "projects": "node project-manager.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

@@ -1,8 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
+import { config } from '../../config';
 
 const ProjectCard = ({ project }) => {
+  // Ensure image path is properly formed using the config utility
+  const imageSrc = project.image || config.getImagePath('/images/placeholder.png');
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -13,9 +17,13 @@ const ProjectCard = ({ project }) => {
     >
       <div className="relative h-48">
         <img
-          src={project.image}
+          src={imageSrc}
           alt={project.title}
           className="w-full h-full object-cover"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = config.getImagePath('/images/placeholder.png');
+          }}
         />
       </div>
       <div className="p-6">
