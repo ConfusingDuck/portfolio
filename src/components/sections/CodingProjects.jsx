@@ -32,18 +32,11 @@ const CodingProjects = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        // Skip API call if we're in production (GitHub Pages)
-        if (!API_BASE_URL) {
-          console.log('Using fallback projects in production environment');
-          setProjects(fallbackProjects);
-          setLoading(false);
-          return;
-        }
-
-        // Try to fetch from the backend API with a timeout
+        // Always try to fetch from the API first
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), config.apiTimeout);
         
+        console.log('Fetching projects from API:', API_BASE_URL);
         const response = await fetch(`${API_BASE_URL}/projects`, {
           signal: controller.signal
         });
@@ -55,6 +48,7 @@ const CodingProjects = () => {
         }
         
         let data = await response.json();
+        console.log('Projects fetched successfully:', data.length);
         
         // Parse technologies from string to array if needed
         data = data.map(project => ({
@@ -70,9 +64,10 @@ const CodingProjects = () => {
         
         setProjects(data.length > 0 ? data : fallbackProjects);
       } catch (err) {
-        console.error('Error fetching projects:', err);
+        console.error('Error fetching projects:', err.message);
         setError(err.message);
         // Use fallback data on error
+        console.log('Using fallback projects due to error');
         setProjects(fallbackProjects);
       } finally {
         setLoading(false);
@@ -114,11 +109,10 @@ const CodingProjects = () => {
           
           {loading ? (
             <p className="text-center py-10">Loading projects...</p>
-          ) : error && API_BASE_URL ? (
-            <div className="text-center py-10">
-              <p className="text-red-500 mb-2">Error connecting to the database. Showing fallback projects.</p>
-              <p className="text-sm text-gray-500">({error})</p>
-            </div>
+          ) : error ? (
+            <p className="text-center py-10 text-red-500">
+              Error loading projects. Using fallback data.
+            </p>
           ) : (
             <>
               <div className="mb-8">

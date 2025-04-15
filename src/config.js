@@ -3,18 +3,13 @@
  * such as API endpoints that change between environments.
  */
 
-// Determine if we're in development or production
-const isDevelopment = process.env.NODE_ENV === 'development';
-
-// Base URL for API calls
-export const API_BASE_URL = isDevelopment 
-  ? 'http://localhost:3001/api' 
-  : '';  // Empty string for production since we'll use fallback data
+// Base URL for API calls - always try the local API endpoint
+export const API_BASE_URL = 'http://localhost:3001/api';
 
 // If needed, we can add more environment-specific configurations here
 export const config = {
   // How long to wait before timing out API requests (in ms)
-  apiTimeout: 5000,
+  apiTimeout: 3000, // Reduce timeout to 3 seconds for faster fallback
   
   // Whether to use local data fallbacks when API calls fail
   useLocalFallbacks: true,
