@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
+const PUBLIC_URL = process.env.PUBLIC_URL;
+
 const About = () => {
   const skills = [
     "Full-Stack Development",
@@ -88,7 +90,7 @@ const About = () => {
                 viewport={{ once: true }}
               />
               <motion.img
-                src="/images/headshot.png"
+                src={`${PUBLIC_URL}/images/headshot.png`}
                 alt="Profile"
                 className="rounded-full object-cover w-full h-full border-4 border-primary-500 relative z-10"
                 variants={imageVariants}

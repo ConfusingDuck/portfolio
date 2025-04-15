@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import ProjectCard from '../shared/ProjectCard';
 
-const codingProjects = [
+// Keeping the hardcoded projects as a fallback
+const fallbackProjects = [
   {
     title: 'Just-Wash AI',
     description: 'A full-stack web app, to make washing hands more fun and engaging.',
@@ -14,14 +15,52 @@ const codingProjects = [
   // ADD YOUR NEW PROJECTS HERE RAYMOND!!!
 ];
 
-const allTechnologies = Array.from(
-  new Set(codingProjects.flatMap((project) => project.technologies))
-);
-
 const CodingProjects = () => {
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [selectedTechnologies, setSelectedTechnologies] = useState([]);
 
-  const filteredProjects = codingProjects.filter((project) =>
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/projects');
+        if (!response.ok) {
+          throw new Error('Failed to fetch projects');
+        }
+        
+        let data = await response.json();
+        
+        // Parse technologies from string to array if needed
+        data = data.map(project => ({
+          ...project,
+          technologies: typeof project.technologies === 'string' 
+            ? project.technologies.split(',').map(tech => tech.trim())
+            : project.technologies || [],
+          github: project.github_url,
+          demo: project.live_url,
+          image: project.image_url
+        }));
+        
+        setProjects(data.length > 0 ? data : fallbackProjects);
+      } catch (err) {
+        console.error('Error fetching projects:', err);
+        setError(err.message);
+        setProjects(fallbackProjects); // Use fallback data on error
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  // Get all unique technologies across all projects
+  const allTechnologies = Array.from(
+    new Set(projects.flatMap((project) => project.technologies))
+  );
+
+  const filteredProjects = projects.filter((project) =>
     selectedTechnologies.length === 0
       ? true
       : project.technologies.some((tech) => selectedTechnologies.includes(tech))
@@ -46,30 +85,38 @@ const CodingProjects = () => {
         >
           <h2 className="heading">Coding Projects</h2>
           
-          <div className="mb-8">
-            <h3 className="subheading">Filter by Technology</h3>
-            <div className="flex flex-wrap gap-2">
-              {allTechnologies.map((tech) => (
-                <button
-                  key={tech}
-                  onClick={() => toggleTechnology(tech)}
-                  className={`px-3 py-1 rounded-full text-sm transition-colors ${
-                    selectedTechnologies.includes(tech)
-                      ? 'bg-primary-600 text-white'
-                      : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
-                  }`}
-                >
-                  {tech}
-                </button>
-              ))}
-            </div>
-          </div>
+          {loading ? (
+            <p className="text-center py-10">Loading projects...</p>
+          ) : error ? (
+            <p className="text-center py-10 text-red-500">Error: {error}</p>
+          ) : (
+            <>
+              <div className="mb-8">
+                <h3 className="subheading">Filter by Technology</h3>
+                <div className="flex flex-wrap gap-2">
+                  {allTechnologies.map((tech) => (
+                    <button
+                      key={tech}
+                      onClick={() => toggleTechnology(tech)}
+                      className={`px-3 py-1 rounded-full text-sm transition-colors ${
+                        selectedTechnologies.includes(tech)
+                          ? 'bg-primary-600 text-white'
+                          : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                      }`}
+                    >
+                      {tech}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project) => (
-              <ProjectCard key={project.title} project={project} />
-            ))}
-          </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredProjects.map((project, index) => (
+                  <ProjectCard key={project.title || index} project={project} />
+                ))}
+              </div>
+            </>
+          )}
         </motion.div>
       </div>
     </section>

@@ -1,70 +1,119 @@
-# Getting Started with Create React App
+# Welcome to my Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Hey! I'm Ray, and this is my portfolio site where I keep all my projects and work. I built it with React and Tailwind CSS to keep things simple and clean while making sure it works great everywhere.
 
-## Available Scripts
+Check out my portfolio at: [confusingduck.github.io/portfolio](https://confusingduck.github.io/portfolio)
 
-In the project directory, you can run:
+## What's Inside
 
-### `npm start`
+Nothing too fancy, just:
+- A dark mode that's easy on the eyes
+- Some nice animations to make it feel alive
+- Everything works on mobile (because that's important)
+- All my favorite projects, from both software and hardware
+- My contact info if you want to reach out
+- Fast loading because nobody likes waiting
+- SQL database backend for storing project data
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Built With
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Here's what I used:
+- React for the heavy lifting
+- Tailwind CSS to make it look good
+- Framer Motion for the animations
+- React Router and React Icons for the extra bits
+- Express and SQLite for the backend API
 
-### `npm test`
+## Running the Application
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This portfolio is a full-stack application with both frontend and backend components.
 
-### `npm run build`
+### Frontend (React)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Get the code:
+```bash
+git clone https://github.com/ConfusingDuck/portfolio.git
+cd portfolio
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Install dependencies:
+```bash
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Start the development server:
+```bash
+npm start
+```
 
-### `npm run eject`
+That's it! You should see it running at [http://localhost:3000](http://localhost:3000)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Backend (Express/SQLite)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The backend provides a REST API for storing and retrieving project data using SQLite.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Navigate to the server directory:
+```bash
+cd server
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+2. Install dependencies:
+```bash
+npm install
+```
 
-## Learn More
+3. Seed the database with initial data:
+```bash
+npm run seed
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+4. Start the server:
+```bash
+npm run dev
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The backend API will run at [http://localhost:3001](http://localhost:3001)
 
-### Code Splitting
+## API Endpoints
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The backend provides the following REST API endpoints:
 
-### Analyzing the Bundle Size
+- GET `/api/projects` - Get all projects
+- POST `/api/projects` - Create a new project
+- GET `/api/projects/:id` - Get a specific project
+- PUT `/api/projects/:id` - Update a project
+- DELETE `/api/projects/:id` - Delete a project
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Deployment
 
-### Making a Progressive Web App
+### Frontend
+The frontend is deployed on GitHub Pages: [confusingduck.github.io/portfolio](https://confusingduck.github.io/portfolio)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Backend
+For the backend, you can deploy it to:
+- [Render](https://render.com) (Free tier available for API hosting)
+- [Railway](https://railway.app)
+- [Heroku](https://heroku.com)
 
-### Advanced Configuration
+## How It's Organized
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Pretty straightforward structure:
+```
+├── public/                # Static files
+├── src/                   # Frontend React code
+│   ├── components/        # React components
+│   ├── context/           # Application context
+│   └── App.js             # Main app component
+└── server/                # Backend server
+    ├── index.js           # Express API server
+    ├── seed.js            # Database seed script
+    └── portfolio.db       # SQLite database file
+```
 
-### Deployment
+## See Something That Could Be Better?
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+If you spot any issues or have ideas for improvements, feel free to fork it and send a pull request. Always happy to make things better.
 
-### `npm run build` fails to minify
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+It's open source with an MIT License - use it however you like for your own portfolio!
